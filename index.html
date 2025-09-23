@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Челлендж: Встань на гвозди | Испытай себя!</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Прими вызов! Встань на гвозди и почувствуй настоящую силу. 5-дневный челлендж изменит твою энергию и уверенность.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <!-- Частицы для фона -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Overlay для мобильного меню -->
+  <div class="nav-overlay" id="nav-overlay"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">🔥 Челлендж</div>
+    
+<nav class="nav" id="nav-menu">
+  <ul>
+    <li><a href="#hero">Главная</a></li>
+    <li><a href="#about">О челлендже</a></li>
+    <li><a href="#results">Результаты</a></li>
+    <li><a href="#gallery">Галерея</a></li>
+    <li><a href="#program">Программа</a></li> 
+    <li><a href="#about-us">О нас</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+</nav>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="hero section">
+    <div class="hero-content">
+      <h1>Челлендж Точка Опоры: <span class="text-gradient gradient-text">верни силу и спокойствие за 5 дней</span></h1>
+      <p class="hero-subtitle">Трансформация состояния без сложных практик и часов медитации. Всего 1 час в день для себя любимого</p>
+      
+      <!-- Таймер обратного отсчета -->
+      <div id="countdown-container">
+        <div class="countdown-timer">
+          <div class="timer-unit">
+            <span class="timer-value" id="days">00</span>
+            <span class="timer-label">Дней</span>
+          </div>
+          <div class="timer-unit">
+            <span class="timer-value" id="hours">00</span>
+            <span class="timer-label">Часов</span>
+          </div>
+          <div class="timer-unit">
+            <span class="timer-value" id="minutes">00</span>
+            <span class="timer-label">Минут</span>
+          </div>
+          <div class="timer-unit">
+            <span class="timer-value" id="seconds">00</span>
+            <span class="timer-label">Секунд</span>
+          </div>
+        </div>
+        <p style="text-align: center; color: rgba(255, 255, 255, 0.8); margin-top: -10px; margin-bottom: 20px;">До начала челленджа осталось:</p>
+      </div>
+      
+      <button class="btn btn-challenge pulse" style="animation: fadeInUp 1s ease 1.2s forwards; opacity: 0;">Принять участие</button>
+    </div>
+    <a href="#about" class="scroll-down-indicator">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="about section">
+    <div class="container">
+      <h2 class="section-title gradient-text">Что тебя ждет?</h2>
+      <p class="section-subtitle">за 5 дней ты получишь.</p>
+
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">⚡</div>
+          <h3>Энергия</h3>
+          <p>Пробуждение скрытых резервов тела. Забудь про усталость.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon">💪</div>
+          <h3>Сила Воли</h3>
+          <p>Каждый шаг на гвоздях — это победа над своими страхами.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🧠</div>
+          <h3>Фокус</h3>
+          <p>Научишься управлять вниманием и контролировать боль.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon">✨</div>
+          <h3>Оздоровление</h3>
+          <p>Стимуляция активных точек. Улучшение иммунитета и кровообращения.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS SECTION -->
+  <section id="results" class="results section">
+    <div class="container">
+      <h2 class="section-title gradient-text">Твое преображение за 5 дней</h2>
+      <p class="section-subtitle">Реальные изменения, которые ты ощутишь уже через неделю.</p>
+
+      <div class="comparison-container">
+        <!-- Кейс 1 -->
+        <div class="case-card fade-in">
+          <div class="case-header">
+            <h3>✨ Энергия и утро</h3>
+          </div>
+          <div class="comparison">
+            <div class="half before">
+              <h4>До</h4>
+              <p>Просыпаешься разбитым, нужен кофе, чтобы "завестись".</p>
+            </div>
+            <div class="half after">
+              <h4>После</h4>
+              <p>Просыпаешься бодрым и полным сил. Энергии хватает на весь день.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Кейс 2 -->
+        <div class="case-card fade-in">
+          <div class="case-header">
+            <h3>💪 Уверенность и стресс</h3>
+          </div>
+          <div class="comparison">
+            <div class="half before">
+              <h4>До</h4>
+              <p>Сомнения и тревога перед сложными задачами.</p>
+            </div>
+            <div class="half after">
+              <h4>После</h4>
+              <p>Внутренний стержень. Спокойствие и уверенность в любых ситуациях.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Кейс 3 -->
+        <div class="case-card fade-in">
+          <div class="case-header">
+            <h3>🛠 Простота и контроль</h3>
+          </div>
+          <div class="comparison">
+            <div class="half before">
+              <h4>До</h4>
+              <p>Стресс надолго выбивает из колеи. Нет инструмента для быстрого восстановления.</p>
+            </div>
+            <div class="half after">
+              <h4>После</h4>
+              <p>5-минутная практика на гвоздях возвращает ясность ума и баланс.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section id="gallery" class="gallery-section section">
+    <div class="container">
+      <h2 class="section-title gradient-text">Мир за гранью комфорта</h2>
+      <p class="section-subtitle">Увидь, как это происходит.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="slides">
+        <div class="slide active">
+          <img src="Foto/iam.jpg" alt="Челлендж 1" loading="lazy">
+          <div class="slide-text">
+            <h3>Испытай себя!</h3>
+            <p>Почувствуй силу и уверенность на гвоздях.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="Foto/smal.jpg" alt="Челлендж 2" loading="lazy">
+          <div class="slide-text">
+            <h3>Смелость и концентрация</h3>
+            <p>Каждый шаг – проверка твоей решимости.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="Foto/ad.jpg" alt="Челлендж 3" loading="lazy">
+          <div class="slide-text">
+            <h3>Почувствуй адреналин</h3>
+            <p>Прими вызов и стань сильнее!</p>
+          </div>
+        </div>
+      </div>
+      <button class="slide-nav prev" aria-label="Предыдущий слайд">&#10094;</button>
+      <button class="slide-nav next" aria-label="Следующий слайд">&#10095;</button>
+      <div class="slides-dots"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT US SECTION -->
+  <section id="about-us" class="about-us section">
+    <div class="container">
+      <h2 class="section-title gradient-text">Кто ведет этот челлендж?</h2>
+      <p class="section-subtitle">Рома и Оленька Хватик — ваши проводники в мир силы духа.</p>
+
+      <div class="about-content">
+        <div class="about-text fade-in">
+          <p>Мы — практики с опытом работы с телом и сознанием. Мы прошли путь от страха и сомнений до уверенности и силы. И теперь мы помогаем другим обрести эту внутреннюю опору.</p>
+          <p>Наша миссия — показать, что настоящая сила скрыта внутри каждого. Нужен лишь правильный ключ, чтобы ее пробудить.</p>
+          <ul class="styled-list">
+            <li>Более 5 лет практики хождения по гвоздям</li>
+            <li>Провели более 100 семинаров и мастер-классов</li>
+            <li>Помогли сотням людей преодолеть свои страхи</li>
+            <li>Создали безопасную и поддерживающую среду для роста</li>
+          </ul>
+          <p class="highlight">Мы не просто учим стоять на гвоздях. Мы учим стоять на своем в любой ситуации жизни.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- PROGRAM SECTION -->
+<section id="program" class="program section">
+  <div class="container">
+    <h2 class="section-title gradient-text">Программа челленджа (5 шагов)</h2>
+    <p class="section-subtitle">Ежедневные трансформационные практики для пробуждения внутренней силы</p>
+
+    <div class="program-steps">
+      <div class="step-card fade-in">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>День 1 — Опора через дыхание</h3>
+          <p>Осваиваем технику глубокого дыхания, которая становится фундаментом для всех последующих практик. Учимся находить внутреннюю опору в любой ситуации.</p>
+        </div>
+      </div>
+
+      <div class="step-card fade-in">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>День 2 — Первое знакомство с гвоздями</h3>
+          <p>Аккуратное и безопасное знакомство с доской Садху. Для начинающих - работа с визуализацией и постепенным подходом к практике.</p>
+        </div>
+      </div>
+
+      <div class="step-card fade-in">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>День 3 — Работа со страхом боли</h3>
+          <p>Преодолеваем психологические барьеры. Учимся трансформировать страх в энергию и концентрацию. Практика управления восприятием.</p>
+        </div>
+      </div>
+
+      <div class="step-card fade-in">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>День 4 — Перезагрузка нервной системы</h3>
+          <p>Глубокое погружение в практику. Стимуляция активных точек стоп для восстановления энергетического баланса и снятия напряжения.</p>
+        </div>
+      </div>
+
+      <div class="step-card fade-in">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h3>День 5 — Новый уровень: сила и уверенность</h3>
+          <p>Закрепление результатов. Интеграция практики в повседневную жизнь. Обретение устойчивого состояния внутренней силы и спокойствия.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="program-final fade-in">
+      <div class="final-content">
+        <h3>Финал: "И только представь, что будет после полного курса"</h3>
+        <p>После прохождения 5-дневного челленджа ты обретешь не просто навык, а мощный инструмент для управления своей энергией и состоянием в любой жизненной ситуации.</p>
+        <div class="final-benefits">
+          <span>Уверенность</span>
+          <span>Энергия</span>
+          <span>Концентрация</span>
+          <span>Баланс</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- CTA SECTION -->
+  <section class="cta section">
+    <div class="container">
+      <h2>Готов изменить свою жизнь за 5 дней?</h2>
+      <p>Присоединяйся к челленджу и получи доступ к трансформации.</p>
+      <button class="btn btn-large pulse">Начать сейчас!</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="logo">🔥 Челлендж</div>
+          <p>Точка опоры для твоей внутренней силы.</p>
+        </div>
+        <div class="footer-contact">
+          <h3>Контакты</h3>
+          <p>Email: <a href="mailto:Dolika27@mail.ru">Dolika27@mail.ru</a></p>
+          <p>Телефон: <a href="tel:+7(999)-999-99-99">+7(999)-999-99-99</a></p>
+        </div>
+        <div class="footer-dev">
+          <h3>Разработка</h3>
+          <p>Сайт сделан <a href="#">SamPetro-Solutions.com</a></p>
+        </div>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2025 Челлендж Точка Опоры. Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal" id="payment-modal">
+    <div class="modal-content">
+      <span class="close-payment">&times;</span>
+      <h2>Оплата участия</h2>
+      <p>Для участия в челлендже внесите оплату 1700 руб.</p>
+      <p>После оплаты с вами свяжется наш менеджер для уточнения деталей.</p>
+      <button class="btn" style="margin-top: 1rem;">Перейти к оплате</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
