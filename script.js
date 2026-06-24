@@ -1,86 +1,80 @@
 // =========================
-// КОНФИГУРАЦИЯ SUPABASE
+// ЛОКАЛЬНАЯ БАЗА ДАННЫХ ДЛЯ ОТЗЫВОВ
 // =========================
-const SUPABASE_URL = 'https://zsffpgnvpgvtlptovagd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZmZwZ252cGd2dGxwdG92YWdkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODY5MTc3OSwiZXhwIjoyMDc0MjY3Nzc5fQ.whouWVGlAvYmtmNJu4KzYGVkGiWuhqPE3FwZaI_7ebM';
-
-// Инициализация Supabase
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// =========================
-// БАЗА ДАННЫХ ДЛЯ ОТЗЫВОВ (Supabase)
-// =========================
-class SupabaseReviews {
+class LocalReviews {
     constructor() {
-        this.supabase = supabase;
+        // Загружаем отзывы из localStorage или используем начальные
+        this.reviews = this.loadReviews();
     }
 
-    // Получить все отзывы из Supabase
-    async getAllReviews() {
-        try {
-            const { data, error } = await this.supabase
-                .from('reviews')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-            return data || [];
-        } catch (error) {
-            console.error('Ошибка загрузки отзывов:', error);
-            return [];
+    // Загрузить отзывы из localStorage
+    loadReviews() {
+        const saved = localStorage.getItem('reviews');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch {
+                return this.getDefaultReviews();
+            }
         }
+        return this.getDefaultReviews();
     }
 
-    // Добавить новый отзыв в Supabase
-    async addReview(reviewData) {
-        try {
-            const { data, error } = await this.supabase
-                .from('reviews')
-                .insert([reviewData])
-                .select()
-                .single();
+    // Сохранить отзывы в localStorage
+    saveReviews() {
+        localStorage.setItem('reviews', JSON.stringify(this.reviews));
+    }
 
-            if (error) throw error;
-            return data;
-        } catch (error) {
-            console.error('Ошибка добавления отзыва:', error);
-            throw error;
-        }
+    // Начальные отзывы
+    getDefaultReviews() {
+        return [
+            {
+                id: 1,
+                name: 'Анна',
+                age: 28,
+                text: 'После челленджа я чувствую невероятную лёгкость и уверенность. Гвозди помогли мне найти внутреннюю опору!',
+                photo_url: null,
+                created_at: new Date('2025-02-15').toISOString()
+            },
+            {
+                id: 2,
+                name: 'Максим',
+                age: 34,
+                text: '5 дней изменили моё восприятие себя. Энергия зашкаливает, а страх ушёл. Рекомендую всем!',
+                photo_url: null,
+                created_at: new Date('2025-02-10').toISOString()
+            },
+            {
+                id: 3,
+                name: 'Елена',
+                age: 42,
+                text: 'Я боялась даже пробовать, но после первого дня поняла - это моё! Теперь утро начинается с гвоздей и улыбки.',
+                photo_url: null,
+                created_at: new Date('2025-02-05').toISOString()
+            }
+        ];
+    }
+
+    // Получить все отзывы
+    getAllReviews() {
+        return this.reviews;
+    }
+
+    // Добавить новый отзыв
+    addReview(reviewData) {
+        const newReview = {
+            id: Date.now(),
+            ...reviewData,
+            created_at: new Date().toISOString()
+        };
+        this.reviews.unshift(newReview);
+        this.saveReviews();
+        return newReview;
     }
 
     // Получить фото-отзывы
-    async getPhotoReviews() {
-        const reviews = await this.getAllReviews();
-        return reviews.filter(review => review.photo_url).slice(0, 6);
-    }
-}
-
-// =========================
-// ФУНКЦИЯ ЗАГРУЗКИ ФОТО В SUPABASE STORAGE
-// =========================
-async function uploadReviewPhoto(file) {
-    try {
-        // Генерируем уникальное имя файла
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
-        const filePath = `review-photos/${fileName}`;
-
-        // Загружаем файл в Supabase Storage
-        const { data, error } = await supabase.storage
-            .from('review-photos')
-            .upload(filePath, file);
-
-        if (error) throw error;
-
-        // Получаем публичный URL загруженного файла
-        const { data: { publicUrl } } = supabase.storage
-            .from('review-photos')
-            .getPublicUrl(filePath);
-
-        return publicUrl;
-    } catch (error) {
-        console.error('Ошибка загрузки фото:', error);
-        throw error;
+    getPhotoReviews() {
+        return this.reviews.filter(review => review.photo_url).slice(0, 6);
     }
 }
 
@@ -88,24 +82,22 @@ async function uploadReviewPhoto(file) {
 // ОСНОВНОЙ КОД
 // =========================
 document.addEventListener('DOMContentLoaded', function() {
-    // Инициализация базы данных Supabase
-    const reviewsDB = new SupabaseReviews();
+    // Инициализация локальной базы данных
+    const reviewsDB = new LocalReviews();
 
     // =========================
     // ОБРАТНЫЙ ОТСЧЕТ
     // =========================
     function initializeCountdown() {
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 9);
-        targetDate.setHours(6, 0, 0, 0);
+        const targetDate = new Date(2025, 9, 3, 6, 0, 0); // 3 октября 2025, 6:00
 
         function updateCountdown() {
             const now = new Date().getTime();
-            const distance = targetDate - now;
+            const distance = targetDate.getTime() - now;
 
             if (distance < 0) {
                 document.getElementById('countdown-container').innerHTML = 
-                    '<div class="timer-expired">Челлендж начался! Присоединяйтесь прямо сейчас!</div>';
+                    '<div class="timer-expired">🔥 Челлендж уже начался! Присоединяйтесь прямо сейчас!</div>';
                 return;
             }
 
@@ -122,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function animateNumber(elementId, newValue) {
             const element = document.getElementById(elementId);
-            if (element.textContent !== newValue) {
+            if (element && element.textContent !== newValue) {
                 element.classList.add('changing');
                 setTimeout(() => {
                     element.textContent = newValue;
@@ -136,23 +128,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =========================
-    // СЛАЙДЕР ОТЗЫВОВ (Supabase)
+    // СЛАЙДЕР ОТЗЫВОВ
     // =========================
-    async function initializeReviewsSlider() {
+    function initializeReviewsSlider() {
         const track = document.getElementById('slider-track');
         const dotsContainer = document.getElementById('slider-dots');
         const prevBtn = document.querySelector('.slider-prev');
         const nextBtn = document.querySelector('.slider-next');
 
         let currentSlide = 0;
-        let reviews = [];
+        const reviews = reviewsDB.getAllReviews();
 
         function createSlides() {
             track.innerHTML = '';
             dotsContainer.innerHTML = '';
 
             if (reviews.length === 0) {
-                track.innerHTML = '<div class="review-slide"><p>Пока нет отзывов</p></div>';
+                track.innerHTML = '<div class="review-slide"><p>Пока нет отзывов. Будьте первым!</p></div>';
                 return;
             }
 
@@ -215,38 +207,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Инициализация
-        try {
-            reviews = await reviewsDB.getAllReviews();
-            await createSlides();
-        } catch (error) {
-            console.error('Ошибка загрузки отзывов:', error);
-        }
+        createSlides();
 
         // Обработчики событий
-        prevBtn.addEventListener('click', prevSlide);
-        nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
 
         // Автопрокрутка
         let autoSlide = setInterval(nextSlide, 5000);
 
-        track.addEventListener('mouseenter', () => clearInterval(autoSlide));
-        track.addEventListener('mouseleave', () => {
-            autoSlide = setInterval(nextSlide, 5000);
-        });
+        if (track) {
+            track.addEventListener('mouseenter', () => clearInterval(autoSlide));
+            track.addEventListener('mouseleave', () => {
+                autoSlide = setInterval(nextSlide, 5000);
+            });
+        }
     }
 
     // =========================
-    // КАРУСЕЛЬ ФОТО-ОТЗЫВОВ (Supabase)
+    // КАРУСЕЛЬ ФОТО-ОТЗЫВОВ
     // =========================
-    async function initializePhotoCarousel() {
+    function initializePhotoCarousel() {
         const track = document.getElementById('carousel-track');
         const dotsContainer = document.getElementById('carousel-dots');
         const prevBtn = document.querySelector('.carousel-prev');
         const nextBtn = document.querySelector('.carousel-next');
 
         let currentSlide = 0;
-        let photoReviews = [];
+        const photoReviews = reviewsDB.getPhotoReviews();
         let autoSlideInterval;
 
         function createCarousel() {
@@ -254,7 +242,11 @@ document.addEventListener('DOMContentLoaded', function() {
             dotsContainer.innerHTML = '';
 
             if (photoReviews.length === 0) {
-                track.innerHTML = '<div class="carousel-slide no-photos"><p>Пока нет фото-отзывов</p></div>';
+                track.innerHTML = `
+                    <div class="carousel-slide no-photos">
+                        <p>📸 Пока нет фото-отзывов. Добавьте свой!</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -274,7 +266,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     slide.querySelector('img').addEventListener('click', () => openPhotoModal(review.photo_url));
                 } else {
-                    slide.innerHTML = `<div class="text-photo"><p>"${review.text}"</p><span>- ${review.name}</span></div>`;
+                    slide.innerHTML = `
+                        <div class="text-photo">
+                            <p>"${review.text}"</p>
+                            <span>- ${review.name}</span>
+                        </div>
+                    `;
                 }
                 
                 track.appendChild(slide);
@@ -323,30 +320,30 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(autoSlideInterval);
         }
 
-        // Инициализация
-        try {
-            photoReviews = await reviewsDB.getPhotoReviews();
-            await createCarousel();
-            startAutoSlide();
-        } catch (error) {
-            console.error('Ошибка загрузки фото-отзывов:', error);
-        }
+        createCarousel();
+        startAutoSlide();
 
         // Обработчики событий
-        prevBtn.addEventListener('click', () => {
-            stopAutoSlide();
-            prevSlide();
-            startAutoSlide();
-        });
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                prevSlide();
+                startAutoSlide();
+            });
+        }
 
-        nextBtn.addEventListener('click', () => {
-            stopAutoSlide();
-            nextSlide();
-            startAutoSlide();
-        });
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                stopAutoSlide();
+                nextSlide();
+                startAutoSlide();
+            });
+        }
 
-        track.addEventListener('mouseenter', stopAutoSlide);
-        track.addEventListener('mouseleave', startAutoSlide);
+        if (track) {
+            track.addEventListener('mouseenter', stopAutoSlide);
+            track.addEventListener('mouseleave', startAutoSlide);
+        }
     }
 
     // =========================
@@ -374,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         let photoPreview = document.getElementById('photo-preview');
                         
                         if (!photoPreview) {
-                            // Создаем контейнер для превью если его нет
                             const previewContainer = document.createElement('div');
                             previewContainer.id = 'photo-preview';
                             previewContainer.style.cssText = `
@@ -387,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             `;
                             photoInput.parentNode.appendChild(previewContainer);
                             
-                            // Добавляем обработчик для кнопки удаления
                             document.getElementById('remove-photo-btn').addEventListener('click', removePhotoPreview);
                         } else {
                             photoPreview.innerHTML = `
@@ -403,115 +398,106 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Функция удаления превью
         function removePhotoPreview() {
             const photoPreview = document.getElementById('photo-preview');
             const photoInput = document.getElementById('review-photo');
             
-            if (photoPreview) {
-                photoPreview.remove();
-            }
-            if (photoInput) {
-                photoInput.value = '';
-            }
+            if (photoPreview) photoPreview.remove();
+            if (photoInput) photoInput.value = '';
         }
 
         // =========================
         // ОБРАБОТКА ФОРМЫ ОТЗЫВА
         // =========================
         function initializeReviewForm() {
-            // Открытие модального окна для добавления отзыва
-            addReviewBtn.addEventListener('click', () => {
-                reviewModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
+            if (addReviewBtn) {
+                addReviewBtn.addEventListener('click', () => {
+                    reviewModal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                });
+            }
 
-            // Обработка формы отзыва
-            reviewForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const submitButton = reviewForm.querySelector('button[type="submit"]');
-                const originalText = submitButton.textContent;
-                
-                // Блокируем кнопку на время отправки
-                submitButton.textContent = 'Отправка...';
-                submitButton.disabled = true;
-
-                const formData = {
-                    name: document.getElementById('review-name').value.trim(),
-                    age: parseInt(document.getElementById('review-age').value),
-                    text: document.getElementById('review-text').value.trim(),
-                    photo_url: null,
-                    created_at: new Date().toISOString()
-                };
-
-                // Валидация
-                if (!formData.name || !formData.text || isNaN(formData.age) || formData.age < 1 || formData.age > 120) {
-                    showNotification('Пожалуйста, заполните все обязательные поля корректно', 'error');
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                    return;
-                }
-
-                // Обработка загрузки фото
-                const photoInput = document.getElementById('review-photo');
-                if (photoInput.files.length > 0) {
-                    const file = photoInput.files[0];
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
                     
-                    // Проверяем размер файла (макс. 5MB)
-                    if (file.size > 5 * 1024 * 1024) {
-                        showNotification('Размер фото не должен превышать 5MB', 'error');
+                    const submitButton = reviewForm.querySelector('button[type="submit"]');
+                    const originalText = submitButton.textContent;
+                    
+                    submitButton.textContent = 'Отправка...';
+                    submitButton.disabled = true;
+
+                    const name = document.getElementById('review-name').value.trim();
+                    const age = parseInt(document.getElementById('review-age').value);
+                    const text = document.getElementById('review-text').value.trim();
+                    
+                    // Валидация
+                    if (!name || !text || isNaN(age) || age < 1 || age > 120) {
+                        showNotification('Пожалуйста, заполните все обязательные поля корректно', 'error');
                         submitButton.textContent = originalText;
                         submitButton.disabled = false;
                         return;
                     }
 
-                    // Проверяем тип файла
-                    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-                    if (!validTypes.includes(file.type)) {
-                        showNotification('Разрешены только JPG, PNG и WebP форматы', 'error');
-                        submitButton.textContent = originalText;
-                        submitButton.disabled = false;
+                    // Обработка фото
+                    const photoInput = document.getElementById('review-photo');
+                    let photo_url = null;
+
+                    if (photoInput.files.length > 0) {
+                        const file = photoInput.files[0];
+                        if (file.size > 5 * 1024 * 1024) {
+                            showNotification('Размер фото не должен превышать 5MB', 'error');
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                            return;
+                        }
+
+                        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                        if (!validTypes.includes(file.type)) {
+                            showNotification('Разрешены только JPG, PNG и WebP форматы', 'error');
+                            submitButton.textContent = originalText;
+                            submitButton.disabled = false;
+                            return;
+                        }
+
+                        // Конвертируем фото в base64 для локального хранения
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            photo_url = e.target.result;
+                            saveReviewAndClose(name, age, text, photo_url, submitButton, originalText);
+                        };
+                        reader.readAsDataURL(file);
                         return;
                     }
 
-                    try {
-                        showNotification('Загружаем фото...', 'info');
-                        formData.photo_url = await uploadReviewPhoto(file);
-                    } catch (error) {
-                        showNotification('Ошибка загрузки фото. Попробуйте еще раз', 'error');
-                        submitButton.textContent = originalText;
-                        submitButton.disabled = false;
-                        return;
-                    }
-                }
+                    saveReviewAndClose(name, age, text, null, submitButton, originalText);
+                });
+            }
+        }
 
-                try {
-                    await saveReview(formData);
-                } catch (error) {
-                    showNotification('Ошибка при добавлении отзыва. Попробуйте еще раз', 'error');
-                } finally {
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                }
-            });
-
-            async function saveReview(formData) {
-                await reviewsDB.addReview(formData);
+        function saveReviewAndClose(name, age, text, photo_url, submitButton, originalText) {
+            try {
+                reviewsDB.addReview({ name, age, text, photo_url });
                 
                 // Закрываем модальное окно
+                const reviewModal = document.getElementById('review-modal');
                 reviewModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
-                reviewForm.reset();
                 
-                // Удаляем превью фото
+                const reviewForm = document.getElementById('review-form');
+                reviewForm.reset();
                 removePhotoPreview();
                 
-                // Обновляем отзывы на странице
-                await initializeReviewsSlider();
-                await initializePhotoCarousel();
+                // Обновляем слайдеры
+                initializeReviewsSlider();
+                initializePhotoCarousel();
                 
-                showNotification('Ваш отзыв успешно добавлен!', 'success');
+                showNotification('Ваш отзыв успешно добавлен! 🎉', 'success');
+            } catch (error) {
+                showNotification('Ошибка при добавлении отзыва', 'error');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
             }
         }
 
@@ -519,55 +505,49 @@ document.addEventListener('DOMContentLoaded', function() {
         // УПРАВЛЕНИЕ МОДАЛЬНЫМИ ОКНАМИ
         // =========================
         function initializeModalControls() {
-            // Открытие модального окна для просмотра фото
             window.openPhotoModal = function(photoSrc) {
                 const modalPhoto = document.getElementById('modal-photo');
-                modalPhoto.src = photoSrc;
-                photoModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                if (modalPhoto) {
+                    modalPhoto.src = photoSrc;
+                    photoModal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
             };
 
-            // Закрытие модальных окон
             function closeModals() {
-                reviewModal.style.display = 'none';
-                photoModal.style.display = 'none';
-                telegramModal.style.display = 'none';
+                if (reviewModal) reviewModal.style.display = 'none';
+                if (photoModal) photoModal.style.display = 'none';
+                if (telegramModal) telegramModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
 
-            // Обработчики закрытия
             document.querySelectorAll('.close-payment').forEach(closeBtn => {
                 closeBtn.addEventListener('click', closeModals);
             });
 
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        closeModals();
-                    }
+                    if (e.target === this) closeModals();
                 });
             });
 
-            // Закрытие по ESC
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeModals();
-                }
+                if (e.key === 'Escape') closeModals();
             });
 
-            // Обработчик для кнопки Telegram
             const telegramBtn = document.querySelector('.btn-telegram');
             if (telegramBtn) {
                 telegramBtn.addEventListener('click', function() {
                     setTimeout(() => {
-                        telegramModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
+                        if (telegramModal) {
+                            telegramModal.style.display = 'none';
+                            document.body.style.overflow = 'auto';
+                        }
                     }, 500);
                 });
             }
         }
 
-        // Инициализация всех функций модальных окон
         initializePhotoPreview();
         initializeReviewForm();
         initializeModalControls();
@@ -577,7 +557,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // УВЕДОМЛЕНИЯ
     // =========================
     function showNotification(message, type = 'info') {
-        // Удаляем существующие уведомления
         document.querySelectorAll('.notification').forEach(notification => {
             notification.remove();
         });
@@ -586,28 +565,18 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.className = `notification ${type}`;
         notification.textContent = message;
 
-        // Добавляем стили для уведомлений
         notification.style.cssText = `
             position: fixed;
-            top: 20px;
+            top: 100px;
             right: 20px;
             padding: 15px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             z-index: 10000;
             animation: slideInRight 0.3s ease;
             max-width: 300px;
+            background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
         `;
-
-        // Цвета в зависимости от типа
-        const colors = {
-            success: '#4CAF50',
-            error: '#f44336',
-            info: '#2196F3',
-            warning: '#ff9800'
-        };
-
-        notification.style.background = colors[type] || colors.info;
 
         document.body.appendChild(notification);
 
@@ -664,9 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.querySelectorAll('.nav a').forEach(link => {
                 link.addEventListener('click', () => {
-                    if (navMenu.classList.contains('active')) {
-                        toggleMenu();
-                    }
+                    if (navMenu.classList.contains('active')) toggleMenu();
                 });
             });
         }
@@ -708,7 +675,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 position: absolute;
                 width: ${Math.random() * 5 + 2}px;
                 height: ${Math.random() * 5 + 2}px;
-                background: ${Math.random() > 0.5 ? 'var(--primary-red)' : 'var(--primary-blue)'};
+                background: ${Math.random() > 0.5 ? '#f512fb' : '#274aff'};
                 border-radius: 50%;
                 opacity: ${Math.random() * 0.6 + 0.2};
                 top: ${Math.random() * 100}%;
@@ -721,7 +688,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // =========================
-    // ОБРАБОТКА ФОРМЫ РЕГИСТРАЦИИ (TELEGRAM)
+    // ОБРАБОТКА ФОРМЫ РЕГИСТРАЦИИ
     // =========================
     function initializeRegistrationForm() {
         const registrationForm = document.getElementById('challenge-form');
@@ -729,32 +696,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!registrationForm) return;
         
-        registrationForm.addEventListener('submit', async function(e) {
+        registrationForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitButton = registrationForm.querySelector('button[type="submit"]');
             const originalText = submitButton.textContent;
             
-            // Блокируем кнопку на время отправки
             submitButton.textContent = 'Отправка...';
             submitButton.disabled = true;
             
-            const formData = {
-                name: document.getElementById('reg-name').value.trim(),
-                email: document.getElementById('reg-email').value.trim(),
-                phone: document.getElementById('reg-phone').value.trim(),
-                created_at: new Date().toISOString()
-            };
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
             
-            // Валидация
-            if (!formData.name || !formData.email || !formData.phone) {
+            if (!name || !email || !phone) {
                 showNotification('Пожалуйста, заполните все обязательные поля', 'error');
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
                 return;
             }
             
-            // Проверка согласия
             const agreementCheckbox = document.getElementById('reg-agreement');
             if (!agreementCheckbox.checked) {
                 showNotification('Необходимо согласие с условиями участия', 'error');
@@ -763,35 +724,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            try {
-                // Сохраняем данные в Supabase
-                const { data, error } = await supabase
-                    .from('registrations')
-                    .insert([formData])
-                    .select()
-                    .single();
-                    
-                if (error) throw error;
-                
-                // Успешная отправка - показываем модальное окно Telegram
-                showNotification('Регистрация успешна! Переходите в Telegram.', 'success');
-                
-                // Показываем модальное окно Telegram
-                if (telegramModal) {
-                    telegramModal.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                }
-                
-                // Очищаем форму
-                registrationForm.reset();
-                
-            } catch (error) {
-                console.error('Ошибка при записи:', error);
-                showNotification('Ошибка при отправке формы. Попробуйте еще раз.', 'error');
-            } finally {
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
+            showNotification('Регистрация успешна! Переходите в Telegram.', 'success');
+            
+            if (telegramModal) {
+                telegramModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             }
+            
+            registrationForm.reset();
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
         });
     }
 
@@ -814,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // =========================
     // ИНИЦИАЛИЗАЦИЯ ВСЕХ ФУНКЦИЙ
     // =========================
-    async function initializeAll() {
+    function initializeAll() {
         initializeCountdown();
         initializeScrollAnimations();
         initializeMobileMenu();
@@ -822,21 +764,12 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeParticles();
         initializeModals();
         initializeRegistrationForm();
-        
-        // Инициализация слайдеров после загрузки данных
-        await initializeReviewsSlider();
-        await initializePhotoCarousel();
+        initializeReviewsSlider();
+        initializePhotoCarousel();
 
         console.log('🔥 Челлендж Точка Опоры - все системы запущены!');
     }
 
     // Запускаем инициализацию
-    initializeAll().catch(error => {
-        console.error('Ошибка инициализации:', error);
-    });
-});
-
-// Добавляем обработчик ошибок для отладки
-window.addEventListener('error', function(e) {
-    console.error('Произошла ошибка:', e.error);
+    initializeAll();
 });
