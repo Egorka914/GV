@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <title>Челлендж: Встань на гвозди | Испытай себя!</title>
   <link rel="stylesheet" href="style.css" />
   <meta name="description" content="Прими вызов! Встань на гвозди и почувствуй настоящую силу. 5-дневный челлендж изменит твою энергию и уверенность.">
@@ -28,7 +27,6 @@
         <li><a href="#about">О челлендже</a></li>
         <li><a href="#results">Результаты</a></li>
         <li><a href="#reviews">Отзывы</a></li>
-        <li><a href="#program">Программа</a></li> 
         <li><a href="#about-us">О нас</a></li>
         <li><a href="#contact">Контакты</a></li>
       </ul>
@@ -47,7 +45,7 @@
       <h3 class="text-gradient gradient-text">(С гвоздями или без)</h3>
       <p class="hero-subtitle">Трансформация состояния без сложных практик и часов медитации. Всего 1 час в день для себя любимого</p>
       <p style="text-align: center; color: rgba(255, 255, 255, 0.8); margin-top: -10px; margin-bottom: 20px;">До начала челленджа осталось:</p>
-      <!-- Таймер обратного отсчета -->
+      
       <div id="countdown-container">
         <div class="countdown-timer">
           <div class="timer-unit">
@@ -67,7 +65,7 @@
             <span class="timer-label">Секунд</span>
           </div>
         </div>
-        <p style="text-align: center; color: rgba(255, 255, 255, 0.8); margin-top: -10px; margin-bottom: 20px;">начала челленджа 3 октября 2025г </p>
+        <p style="text-align: center; color: rgba(255, 255, 255, 0.8); margin-top: -10px; margin-bottom: 20px;">начала челленджа 3 октября 2025г</p>
       </div>
       
       <button class="btn pulse" onclick="scrollToRegistration()">Принять участие</button>
@@ -85,23 +83,19 @@
 
       <div class="features-grid">
         <div class="feature-card fade-in">
-         
-          <h3>Энергия</h3>
+          <h3>⚡ Энергия</h3>
           <p>Новый уровень энергии (как после 8 часов сна).</p>
         </div>
         <div class="feature-card fade-in">
-          
-          <h3>Сила Воли</h3>
+          <h3>💪 Сила Воли</h3>
           <p>Чувство уверенности и опоры</p>
         </div>
         <div class="feature-card fade-in">
-          
-          <h3>Фокус</h3>
+          <h3>🎯 Фокус</h3>
           <p>Простую практику, которая работает даже без гвоздей.</p>
         </div>
         <div class="feature-card fade-in">
-          
-          <h3>Оздоровление</h3>
+          <h3>🌿 Оздоровление</h3>
           <p>Инсайт и новый взгляд на себя.</p>
         </div>
       </div>
@@ -115,10 +109,9 @@
       <p class="section-subtitle">Реальные изменения, которые ты ощутишь уже через неделю.</p>
 
       <div class="comparison-container">
-        <!-- Кейс 1 -->
         <div class="case-card fade-in">
           <div class="case-header">
-            <h3> Энергия и утро</h3>
+            <h3>⚡ Энергия и утро</h3>
           </div>
           <div class="comparison">
             <div class="half before">
@@ -132,10 +125,9 @@
           </div>
         </div>
 
-        <!-- Кейс 2 -->
         <div class="case-card fade-in">
           <div class="case-header">
-            <h3> Уверенность и сила</h3>
+            <h3>🛡️ Уверенность и сила</h3>
           </div>
           <div class="comparison">
             <div class="half before">
@@ -149,10 +141,9 @@
           </div>
         </div>
 
-        <!-- Кейс 3 -->
         <div class="case-card fade-in">
           <div class="case-header">
-            <h3> Простота и ясность</h3>
+            <h3>🧘 Простота и ясность</h3>
           </div>
           <div class="comparison">
             <div class="half before">
@@ -175,39 +166,31 @@
       <h2 class="section-title gradient-text">Отзывы участников</h2>
       <p class="section-subtitle">Реальные истории трансформации от тех, кто уже прошел челлендж</p>
 
-      <!-- Основной слайдер отзывов -->
       <div class="reviews-slider">
         <div class="slider-container">
-          <div class="slider-track" id="slider-track">
-            <!-- Отзывы будут загружаться динамически -->
-          </div>
+          <div class="slider-track" id="slider-track"></div>
         </div>
-
         <div class="slider-nav">
-          <button class="slider-prev">&#10094;</button>
+          <button class="slider-prev">❮</button>
           <div class="slider-dots" id="slider-dots"></div>
-          <button class="slider-next">&#10095;</button>
+          <button class="slider-next">❯</button>
         </div>
       </div>
 
-      <!-- Карусель фото-отзывов -->
       <div class="reviews-gallery">
-        <h3 class="gallery-title">Фото-отзывы из наших чатов</h3>
+        <h3 class="gallery-title">📸 Фото-отзывы из наших чатов</h3>
         <div class="photo-carousel">
           <div class="carousel-container">
-            <div class="carousel-track" id="carousel-track">
-              <!-- Фото будут загружаться динамически -->
-            </div>
+            <div class="carousel-track" id="carousel-track"></div>
           </div>
           <div class="carousel-nav">
-            <button class="carousel-prev">&#10094;</button>
+            <button class="carousel-prev">❮</button>
             <div class="carousel-dots" id="carousel-dots"></div>
-            <button class="carousel-next">&#10095;</button>
+            <button class="carousel-next">❯</button>
           </div>
         </div>
       </div>
 
-      <!-- Кнопка добавления отзыва -->
       <div class="add-review-section fade-in">
         <div class="add-review-content">
           <h3>Хочешь оставить свой отзыв?</h3>
@@ -229,14 +212,14 @@
           <p>Мы — практики с опытом работы с телом и сознанием. Мы прошли путь от страха и сомнений до уверенности и силы. И теперь мы помогаем другим обрести эту внутреннюю опору.</p>
           <p>Наша миссия — показать, что настоящая сила скрыта внутри каждого. Нужен лишь правильный ключ, чтобы ее пробудить.</p>
           <ul class="styled-list">
-            <li>Рекордсмены России по самой длинной дорожке из гвоздей</li>
-            <li>Создатели курса «ГВОЗДИ В КАЙФ!»</li>
-            <li>Выпустили более 500 проводников в мир Садху</li>
-            <li>Поставили более 3000 человек на гвозди</li>
-            <li>Мастера Рейки</li>
-            <li>Мастера гималайского акустического массажа тибетскими поющими чашами</li>
-            <li>Создатели авторских ретритов</li>
-            <li>Волонтеры эко-движения «ПОДАРИ ДЕРЕВО»</li>
+            <li>🏆 Рекордсмены России по самой длинной дорожке из гвоздей</li>
+            <li>📚 Создатели курса «ГВОЗДИ В КАЙФ!»</li>
+            <li>👥 Выпустили более 500 проводников в мир Садху</li>
+            <li>👣 Поставили более 3000 человек на гвозди</li>
+            <li>🌀 Мастера Рейки</li>
+            <li>🔔 Мастера гималайского акустического массажа тибетскими поющими чашами</li>
+            <li>🏔️ Создатели авторских ретритов</li>
+            <li>🌳 Волонтеры эко-движения «ПОДАРИ ДЕРЕВО»</li>
           </ul>
           <p class="highlight">Мы не просто учим стоять на гвоздях. Мы учим стоять на своем в любой ситуации жизни.</p>
         </div>
@@ -245,106 +228,106 @@
   </section>
 
   <!-- REGISTRATION SECTION -->
-<section id="registration" class="registration section">
-  <div class="container">
-    <div class="registration-content">
-      <div class="registration-info fade-in">
-        <h2 class="section-title gradient-text">Хочешь снова чувствовать силу внутри?</h2>
-        
-        <div class="registration-details">
-          <p class="registration-date"><strong>3 октября мы запускаем онлайн-челлендж «ТОЧКА ОПОРЫ»</strong> — 5 утренних практик для пробуждения твоей энергии.</p>
+  <section id="registration" class="registration section">
+    <div class="container">
+      <div class="registration-content">
+        <div class="registration-info fade-in">
+          <h2 class="section-title gradient-text">Хочешь снова чувствовать силу внутри?</h2>
           
-          <div class="registration-highlights">
-            <div class="highlight-item">
-              <span class="highlight-icon">🕕</span>
-              <div class="highlight-text">
-                <strong>Каждый день с 6:00 до 7:00</strong> мы будем работать с телом, дыханием и сознанием.
-              </div>
-            </div>
+          <div class="registration-details">
+            <p class="registration-date"><strong>3 октября мы запускаем онлайн-челлендж «ТОЧКА ОПОРЫ»</strong> — 5 утренних практик для пробуждения твоей энергии.</p>
             
-            <div class="highlight-list">
-              <div class="highlight-point">
-                <span class="point-icon">👉</span>
-                <span><strong>Всё проходит в Telegram:</strong> прямые эфиры утром + сохраняются записи.</span>
+            <div class="registration-highlights">
+              <div class="highlight-item">
+                <span class="highlight-icon">🕕</span>
+                <div class="highlight-text">
+                  <strong>Каждый день с 6:00 до 7:00</strong> мы будем работать с телом, дыханием и сознанием.
+                </div>
               </div>
-              <div class="highlight-point">
-                <span class="point-icon">👉</span>
-                <span><strong>Есть Telegram-чат с поддержкой,</strong> где мы идём вместе и делимся результатами.</span>
-              </div>
-              <div class="highlight-point">
-                <span class="point-icon">👉</span>
-                <span><strong>Не обязательно гвозди</strong> — участвовать могут все.</span>
-              </div>
-              <div class="highlight-point">
-                <span class="point-icon">👉</span>
-                <span><strong>Никакой воды:</strong> практика + немного теории.</span>
-              </div>
-              <div class="highlight-point">
-                <span class="point-icon">👉</span>
-                <span><strong>В конце — особое предложение</strong> для тех, кто пройдёт до конца.</span>
+              
+              <div class="highlight-list">
+                <div class="highlight-point">
+                  <span class="point-icon">👉</span>
+                  <span><strong>Всё проходит в Telegram:</strong> прямые эфиры утром + сохраняются записи.</span>
+                </div>
+                <div class="highlight-point">
+                  <span class="point-icon">👉</span>
+                  <span><strong>Есть Telegram-чат с поддержкой,</strong> где мы идём вместе и делимся результатами.</span>
+                </div>
+                <div class="highlight-point">
+                  <span class="point-icon">👉</span>
+                  <span><strong>Не обязательно гвозди</strong> — участвовать могут все.</span>
+                </div>
+                <div class="highlight-point">
+                  <span class="point-icon">👉</span>
+                  <span><strong>Никакой воды:</strong> практика + немного теории.</span>
+                </div>
+                <div class="highlight-point">
+                  <span class="point-icon">👉</span>
+                  <span><strong>В конце — особое предложение</strong> для тех, кто пройдёт до конца.</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="themes-section">
-            <h3 class="themes-title">💡 Темы челленджа:</h3>
-            <div class="themes-list">
-              <div class="theme-item">
-                <span class="theme-day">День 1</span>
-                <span class="theme-name">— лёгкость: отпускаем деструктив.</span>
+            <div class="themes-section">
+              <h3 class="themes-title">💡 Темы челленджа:</h3>
+              <div class="themes-list">
+                <div class="theme-item">
+                  <span class="theme-day">День 1</span>
+                  <span class="theme-name">— лёгкость: отпускаем деструктив.</span>
+                </div>
+                <div class="theme-item">
+                  <span class="theme-day">День 2</span>
+                  <span class="theme-name">— энергичность: возвращаем ресурс.</span>
+                </div>
+                <div class="theme-item">
+                  <span class="theme-day">День 3</span>
+                  <span class="theme-name">— визуализация: открываем вдохновение.</span>
+                </div>
+                <div class="theme-item">
+                  <span class="theme-day">День 4</span>
+                  <span class="theme-name">— целенаправленность: выстраиваем вектор.</span>
+                </div>
+                <div class="theme-item">
+                  <span class="theme-day">День 5</span>
+                  <span class="theme-name">— решимость: укрепляем внутреннюю силу.</span>
+                </div>
               </div>
-              <div class="theme-item">
-                <span class="theme-day">День 2</span>
-                <span class="theme-name">— энергичность: возвращаем ресурс.</span>
-              </div>
-              <div class="theme-item">
-                <span class="theme-day">День 3</span>
-                <span class="theme-name">— визуализация: открываем вдохновение.</span>
-              </div>
-              <div class="theme-item">
-                <span class="theme-day">День 4</span>
-                <span class="theme-name">— целенаправленность: выстраиваем вектор.</span>
-              </div>
-              <div class="theme-item">
-                <span class="theme-day">День 5</span>
-                <span class="theme-name">— решимость: укрепляем внутреннюю силу.</span>
-              </div>
+              <p class="themes-note">Эти 5 тем были выбраны как самые важные сегодня по опросу участников и подписчиков.</p>
             </div>
-            <p class="themes-note">Эти 5 тем были выбраны как самые важные сегодня по опросу участников и подписчиков.</p>
           </div>
         </div>
-      </div>
 
-      <div class="registration-form-container fade-in">
-        <div class="form-card">
-          <h3>Запишись на челлендж!</h3>
-          <p class="form-subtitle">Начало: <strong>3 октября</strong></p>
-          
-          <form class="registration-form" id="challenge-form">
-            <div class="form-group">
-              <input type="text" id="reg-name" placeholder="Ваше имя" required>
+        <div class="registration-form-container fade-in">
+          <div class="form-card">
+            <h3>Запишись на челлендж!</h3>
+            <p class="form-subtitle">Начало: <strong>3 октября</strong></p>
+            
+            <form class="registration-form" id="challenge-form">
+              <div class="form-group">
+                <input type="text" id="reg-name" placeholder="Ваше имя" required>
+              </div>
+              <div class="form-group">
+                <input type="email" id="reg-email" placeholder="Ваш email" required>
+              </div>
+              <div class="form-group">
+                <input type="tel" id="reg-phone" placeholder="Ваш телефон" required>
+              </div>
+              <div class="form-group checkbox-group">
+                <input type="checkbox" id="reg-agreement" required>
+                <label for="reg-agreement">Я согласен с условиями участия и обработкой персональных данных</label>
+              </div>
+              <button type="submit" class="btn btn-large pulse">Записаться на челлендж</button>
+            </form>
+            
+            <div class="form-footer">
+              <p>После записи вы получите подробную инструкцию в Telegram</p>
             </div>
-            <div class="form-group">
-              <input type="email" id="reg-email" placeholder="Ваш email" required>
-            </div>
-            <div class="form-group">
-              <input type="tel" id="reg-phone" placeholder="Ваш телефон" required>
-            </div>
-            <div class="form-group checkbox-group">
-              <input type="checkbox" id="reg-agreement" required>
-              <label for="reg-agreement">Я согласен с условиями участия и обработкой персональных данных</label>
-            </div>
-            <button type="submit" class="btn btn-large pulse">Записаться на челлендж</button>
-          </form>
-          
-          <div class="form-footer">
-            <p>После записи вы получите подробную инструкцию в Telegram</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- CTA SECTION -->
   <section class="cta section">
@@ -365,10 +348,10 @@
         </div>
         <div class="footer-contact">
           <h3>Контакты</h3>
-          <p>Номер телефона:<a href="+7 918 522-04-23">+7 918 522-04-23</a></p>
-          <p>Email: <a href="mailto:Dolika27@mail.ru">Dolika27@mail.ru</a></p>
-          <p>Telegram: <a href="https://t.me/freedola" target="_blank">@freedola</a></p>
-          <p>Whatsap: <a href="https://wa.me/message/RFKU2PFCOYCKC1" target="_blank">ХВАТИК ОЛЬГА</a></p>
+          <p>📞 <a href="tel:+79185220423">+7 918 522-04-23</a></p>
+          <p>📧 <a href="mailto:Dolika27@mail.ru">Dolika27@mail.ru</a></p>
+          <p>📱 <a href="https://t.me/freedola" target="_blank">@freedola</a></p>
+          <p>💬 <a href="https://wa.me/message/RFKU2PFCOYCKC1" target="_blank">WhatsApp</a></p>
         </div>
         <div class="footer-dev">
           <h3>Разработка</h3>
@@ -390,12 +373,12 @@
         <div class="telegram-icon">📱</div>
         <p><strong>Регистрация успешна!</strong> Для завершения записи перейдите в Telegram</p>
         <p>Там вы получите все инструкции и доступ к чату челленджа</p>
-       <a href="https://t.me/freedola?text=хочу%20учувствовать%20Челленджах" 
-   class="btn btn-telegram pulse" 
-   target="_blank">
-   Хочу участвовать
-</a>
-        <p class="telegram-note">Если ссылка не работает, найдите нас в Telegram:@freedola</p>
+        <a href="https://t.me/freedola?text=хочу%20учувствовать%20Челленджах" 
+           class="btn btn-telegram pulse" 
+           target="_blank">
+          📩 Хочу участвовать
+        </a>
+        <p class="telegram-note">Если ссылка не работает, найдите нас в Telegram: @freedola</p>
       </div>
     </div>
   </div>
